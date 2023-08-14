@@ -27,4 +27,6 @@
             "dest": "Alies/wsgi.py"
         }
     ]
+        "rewrites": [{ "source": "/(.*)", "destination": "/Alies" }]
+
 }
