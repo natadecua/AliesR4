@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css\styles.css' %}?=version1"
+    />
+  </head>
+
+      <!-- Link the JavaScript file -->
+    </div>
+
+    <header>
+      <div class="menubar">
+        <!-- Add your menu bar content here -->
+        <div class="menu-left">
+        </div>
+        <div class="menu-center">
+          <img src="{% static 'media\mlogo.png' %}" alt="Center Image" />
+        </div>
+        <div class="menu-right">
+          <a  href="/" class="rtnbtn">LOGOUT</a>
+        </div>
+      </div>
+      
+    </header>
+    <div class="dashboard">
+      <div class="top-row">
+        <a href="/order" class="btn">Order</a>
+        <a href="/queue" class="btn">Queue</a>
+      </div>
+      <div class="bottom-row">
+        <!--<a href="/pricebook" class="btn">Pricebook</a>-->
+        <a href="/history" class="btn">History</a>
+        <a href="/admin" class="btn">Inventory</a>
+      </div>
+
+      <script>
+        window.onload = function () {
+          deleteAll();
+
+        };
+
+
+        function deleteAll() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/delete-all/");
+          xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+          xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+          // Send the request to the server
+          xhr.send();
+          };
+
+          function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length == 2) return parts.pop().split(";").shift();
+      }
+      </script>
+    </div>
+  </body>
+</html>

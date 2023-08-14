@@ -1,0 +1,592 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% block head %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ordering Page</title>
+    <link rel="stylesheet" href="{% static 'css\order.css' %}?version=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css\styles.css' %} "
+    />
+  </head>
+  {% endblock %}
+  <body>
+    {% block content %}
+    <!-- Menubar -->
+    <div class="menubar">
+      <!-- Add your menu bar content here -->
+      <div class="menu-left">
+        <img src="{% static 'media\logo.png' %}" alt="Left Image" />
+      </div>
+      <div class="menu-center">
+        <img src="{% static 'media\mlogo.png' %}" alt="Center Image" />
+      </div>
+      <div class="menu-right">
+        <a href="/dashboard" class="rtnbtn">Return</a>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+      <!-- Left-side menu and categories -->
+      <div class="left-side">
+        <!-- Categories -->
+        <div class="categories">
+          <!-- Original categories -->
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="breakfast"
+          >
+            Breakfast
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="noodles"
+          >
+            Noodles
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="sisig"
+          >
+            Sisig
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="yangchow"
+          >
+            Yangchow
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="wings"
+          >
+            Wings
+          </div>
+
+          <!-- Additional categories -->
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="pork"
+          >
+            Pork
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="chicken"
+          >
+            Chicken
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="beef"
+          >
+            Beef
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="seafood"
+          >
+            Seafood
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="vegetable"
+          >
+            Vegetable
+          </div>
+
+          <!-- New categories -->
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="snacks"
+          >
+            Snacks
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="addons"
+          >
+            Add Ons
+          </div>
+          <div
+            class="category"
+            onclick="showitem(this.dataset.category);"
+            data-category="drinks"
+          >
+            Drinks
+          </div>
+
+          <!-- Search category -->
+
+          <script>
+
+                    window.onload = function(){
+                        updateCartItems()
+                        showitem("breakfast");
+                        };
+                    function showitem(id){
+                        var name = [];
+                        var imageurl = [];
+                        var price = [];
+                        var stock = [];
+
+                        //switch case per  item
+                        switch(id){
+                            case 'breakfast':
+                            var name = [
+                                {%for item in breakfast%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in breakfast%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in breakfast%}
+                                '{{item.price}}',
+                                {% endfor %}];
+
+                                var stock = [
+                                {%for item in breakfast%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                         case 'noodles':
+                            var name = [
+                                {%for item in noodles%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in noodles%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in noodles%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in noodles%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                         case 'yangchow':
+                            var name = [
+                                {%for item in yangchow%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in yangchow%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in yangchow%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in yangchow%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                        case 'sisig':
+                            var name = [
+                                {%for item in sisig%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in sisig%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in sisig%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in sisig%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                    case 'wings':
+                            var name = [
+                                {%for item in wings%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in wings%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in wings%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in wings%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                         case 'pork':
+                            var name = [
+                                {%for item in pork%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in pork%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in pork%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in pork%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                        case 'chicken':
+                            var name = [
+                                {%for item in chicken%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in chicken%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in chicken%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in chicken%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                        case 'beef':
+                            var name = [
+                                {%for item in beef%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in beef%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in beef%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in beef%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                    case 'seafood':
+                            var name = [
+                                {%for item in seafood%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in seafood%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in seafood%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in seafood%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                        case 'vegetable':
+                            var name = [
+                                {%for item in vegatable%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in vegatable%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in vegatable%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in vegatable%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                        case 'addons':
+                            var name = [
+                                {%for item in addons%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in addons%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in addons%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in addons%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                         case 'drinks':
+                            var name = [
+                                {%for item in drinks%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in drinks%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in drinks%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in drinks%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+                         case 'snacks':
+                            var name = [
+                                {%for item in snacks%}
+                                '{{item.name}}',
+                                {% endfor %}];
+
+                                var imageurl = [
+                                {%for item in snacks%}
+                                '{{item.imageURL}}',
+                                {% endfor %}];
+
+                                var price = [
+                                {%for item in snacks%}
+                                '{{item.price}}',
+                                {% endfor %}]
+
+                                var stock = [
+                                {%for item in snacks%}
+                                '{{item.stock}}',
+                                {% endfor %}];
+                                break;
+
+
+
+                            default:
+                            alert("There has been an error. Try again");
+                        }
+
+
+
+                    var reference = document.getElementById('menulist');
+                    reference.innerHTML = "";
+
+                    //adds items to order based on category using for loop
+                        for(let i = 0; i < name.length; i++){
+                            if(stock[i] == 0){
+                                reference.innerHTML += `<div value="${name[i]}" name="food" id="${name[i]}"  class="menu-item" style="cursor:pointer;" onclick="alert('OUT OF STOCK!');"><img style="filter: grayscale(100%);opacity: 0.5;" class="menu-item-outofstock img" src={{"../${imageurl[i]}"}}><label class="menu-item-details">${name[i]}</label><label name="price" value="${price[i]}" class="menu-item-details">PHP${price[i]}</label></div>`;
+
+                            }else{
+                                reference.innerHTML += `<div value="${name[i]}" name="food" id="${name[i]}"  class="menu-item" style="cursor:pointer;" onclick="addToCart('${id}','${name[i]}', ${price[i]},onAddToCart())"><img class="menu-item img" src={{"../${imageurl[i]}"}}><label class="menu-item-details">${name[i]}</label><label name="price" value="${price[i]}" class="menu-item-details">PHP${price[i]}</label></div>`;
+
+                            }
+
+                        };
+
+                    }
+
+            function addToCart(category, name, price,callback){
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/order/');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                xhr.onload = function(){
+                    updateCartItems();
+                }
+            // Send the data to the server
+                xhr.send('id=' + encodeURIComponent(category) + '&name=' + encodeURIComponent(name) + '&price=' + encodeURIComponent(price));
+                xhr.addEventListener('load', function() {
+                    // Call the callback function
+                    if (callback) {
+                        callback();
+                    }
+                        });
+                }
+
+                function onAddToCart() {
+                    // Update the cart after the addToCart function has completed
+                    updateCartItems();
+                }
+
+
+
+
+                function getCookie(name) {
+                    var value = "; " + document.cookie;
+                    var parts = value.split("; " + name + "=");
+                    if (parts.length == 2) return parts.pop().split(";").shift();
+                }
+
+
+                function deleteAll(callback){
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/delete-all/');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                    // Send the request to the server
+                    xhr.onload = function(){
+                        updateCartItems();
+                    }
+                    xhr.send();
+                    xhr.addEventListener('load', function() {
+                        // Call the callback function
+                        if (callback) {
+                            callback();
+                        }
+                    });
+
+                }
+
+                function updateCartItems() {
+                    // Create an AJAX request
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/get-current/');
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            // Parse the JSON response
+                            var current = JSON.parse(xhr.responseText);
+
+                            // Update the cartitems div
+                            var cartitemsDiv = document.getElementById('cartitems');
+                            cartitemsDiv.innerHTML = '';
+                            total = 0
+                            for (var i = 0; i < current.length; i++) {
+                                var object = current[i];
+                                total = total+object.price
+                                var itemDiv = document.createElement('div');
+                                itemDiv.className = 'cart-item';
+                                itemDiv.innerHTML = object.items + ' - ' + object.price;
+                                var form = document.createElement('form');
+                                form.method = 'POST';
+                                form.action = '/remove_from_cart/';
+                                var csrfInput = document.createElement('input');
+                                csrfInput.type = 'hidden';
+                                csrfInput.name = 'csrfmiddlewaretoken';
+                                csrfInput.value = getCookie('csrftoken');
+                                form.appendChild(csrfInput);
+                                var itemIdInput = document.createElement('input');
+                                itemIdInput.type = 'hidden';
+                                itemIdInput.name = 'item_id';
+                                itemIdInput.value = object.items;
+                                form.appendChild(itemIdInput);
+                                var removeButton = document.createElement('input');
+                                removeButton.type = 'submit';
+                                removeButton.onclick = 'prompt("Enter Void Password")'
+                                removeButton.value = 'Remove';
+                                form.appendChild(removeButton);
+                                itemDiv.appendChild(form);
+                                cartitemsDiv.appendChild(itemDiv);
+
+                            }
+                        var totalamount = document.getElementById('cart-total');
+                                totalamount.innerHTML = 'Total: PHP'+total
+                        }
+                    };
+                    xhr.send();
+                }
+
+                function removeFromCart(itemId) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/remove_from_cart/');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                    xhr.onload = function() {
+                        updateCartItems();
+                    };
+                    xhr.send('item_id=' + encodeURIComponent(itemId));
+                }
+          </script>
+        </div>
+
+        <!-- Menu side -->
+
+        <div class="menu-side" id="menulist">
+          <!-- Menu items will be placed here -->
+        </div>
+      </div>
+
+      <!-- Right-side cart -->
+      <div class="right-side">
+        <h2>Cart</h2>
+        <div class="cart-items" id="cartitems">
+          <!-- Cart items will be dynamically added/removed here -->
+        </div>
+        <div id="cart-total" class="cart-total">
+          <!-- Total amount and checkout button here -->
+          Total: ₱0.00
+        </div>
+        <button onclick="deleteAll(onAddToCart)" class="clear-cart-btn">
+          Clear Cart
+        </button>
+        <a href="/checkout" class="checkout-btn">
+          <center>Checkout</center>
+        </a>
+      </div>
+    </div>
+    <script src="{% static 'js\order2.js' %}?version=1"></script>
+    {% endblock %}
+  </body>
+</html>

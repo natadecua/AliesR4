@@ -1,0 +1,202 @@
+{% load static %}   
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    var thisTotal = 0;
+    window.onload = function(){
+      addPaymentButtonListeners();
+        updateCartItems();
+        };
+    
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+
+        function goBack() {
+            window.history.back();
+          };
+
+
+          function addToreceipts(compiled, final_price, mode_of_payment){  
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/checkout/');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            //send data, final price, and mode of payment to server
+            xhr.send('text=' + encodeURIComponent(compiled) + '&final_price=' + encodeURIComponent(final_price) + '&mode_of_payment=' + encodeURIComponent(mode_of_payment));
+            window.location.href='/dashboard';
+        };
+
+          function updateCartItems() {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get-current/');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Parse the JSON response
+                    var current = JSON.parse(xhr.responseText);
+        
+                    // Update the cartitems div
+                    var cartitemsDiv = document.getElementById('item-list');
+                    var total = 0;
+                    cartitemsDiv.innerHTML = '';
+                    for (var i = 0; i < current.length; i++) {
+                        var object = current[i];
+                        cartitemsDiv.innerHTML += '<div class="item-window"><div class="item">' + object.items + " -- ₱"+ object.price +'</div></div>';
+                        total = total +object.price
+                        thisTotal = total;
+                    }
+                    cartitemsDiv.innerHTML += '<label id = "total" class="item"> TOTAL:₱'+ total +'</label>';
+                    final_price = total;
+
+                }
+            };
+            xhr.send();
+        };
+          
+function proceed(text){          
+  alert("Order has been saved");
+  updateStocks();
+  var final = get_discounted_price(); // Get the final price after applying discounts
+  var mode_of_payment = get_mode_of_payment(); // Get the selected mode of payment
+  addToreceipts(text, final, mode_of_payment); // Pass the final price and mode of payment as arguments to addToreceipts function
+
+
+};
+
+        function updateStocks(callback){
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/stocks_update/');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            // Send the request to the server
+            xhr.send();
+            xhr.addEventListener('load', function() {
+                // Call the callback function
+                if (callback) {
+                    callback();
+                }
+            });
+
+        }
+
+        function deleteAll(callback){
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/delete-all/');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            // Send the request to the server
+            xhr.send();
+            xhr.addEventListener('load', function() {
+                // Call the callback function
+                if (callback) {
+                    callback();
+                }
+            });
+
+        }
+
+        var final_price = thisTotal;
+
+        function D_seniorCitizen(discount) {
+            var discountedTotal = (thisTotal - (thisTotal * discount));
+            var totalLabel = document.getElementById('total');
+            totalLabel.textContent = 'TOTAL: ₱' + discountedTotal;
+            final_price = discountedTotal; // Update the final price
+        }
+        
+        function D_Handicap(discount) {
+            var discountedTotal = (thisTotal - (thisTotal * discount));
+            var totalLabel = document.getElementById('total');
+            totalLabel.textContent = 'TOTAL: ₱' + discountedTotal;
+            final_price = discountedTotal; // Update the final price
+        }
+
+        function get_discounted_price(){
+          return final_price;
+
+        }
+
+        function get_mode_of_payment() {
+          var mode_of_payment = document.querySelector(".payment-button.active");
+          if (mode_of_payment) {
+              return mode_of_payment.id; // Return the selected mode of payment
+          } else {
+              // Handle the case where no mode of payment is selected
+              alert("Please select a mode of payment before proceeding.");
+              return null;
+          }
+      }
+
+      function addPaymentButtonListeners() {
+        var paymentButtons = document.querySelectorAll(".payment-button");
+        for (var i = 0; i < paymentButtons.length; i++) {
+            paymentButtons[i].addEventListener("click", function() {
+                // Remove the active class from all payment buttons
+                for (var j = 0; j < paymentButtons.length; j++) {
+                    paymentButtons[j].classList.remove("active");
+                }
+                // Add the active class to the clicked button
+                this.classList.add("active");
+            });
+        }
+    }
+
+  </script>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="{% static 'css\checkout.css' %}">
+</head>
+<body>
+  <div class="header">
+    <div class="logo-left">
+      <img src="{% static 'media\logo.png' %}" alt="Left Logo">
+    </div>
+    <div class="logo-center">
+      <img src="{% static 'media\mlogo.png' %}" alt="Center Logo">
+    </div>
+    <button class="back-button" onclick="goBack()">Return</button>
+  </div>
+  <div class="container">
+    <div class="order-details-box">
+      <h2>Order Details</h2>
+      <div class="order-details">
+        <div id="item-list" class="item-list">
+          <div id="item-window"class="item">
+        <!-- Cart items will be displayed here -->
+          </div>
+          <!-- Add more items here -->
+        </div>
+      </div>
+    </div>
+    <div class="discount-and-payment">
+      <div class="discount">
+        <h2>Discount</h2>
+        <div class="discount-buttons">
+          <button onclick= "highlight()" class="discount-button" id="senior-discount">Senior Citizen</button>
+          
+          <button onclick= "highlight_handi()" class="discount-button" id="handi-discount">Handicap</button>
+        </div>
+      </div>
+      <div class="payment">
+        <h2>Mode of Payment</h2>
+        <div class="payment-buttons">
+          <button onclick = "MOP_Gcash()" class="payment-button" id="gcash">GCash</button>
+          <button onclick = "MOP_Cash()" class="payment-button" id="cash">Cash</button>
+        </div>
+      </div>
+      {% csrf_token %}
+      <button onclick="proceed('hello')" class="proceed-button">Proceed</button>
+    </div>
+  </div>
+
+  <script src = '{% static 'js\checkout.js' %}'></script>
+</body>
+</html>

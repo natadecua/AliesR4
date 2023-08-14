@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Page</title>
+    <link rel="stylesheet" href="{% static 'css\queue.css' %}">
+</head>
+<body>
+    <!-- Menubar -->
+    <div class="menubar">
+        <!-- Add your menu bar content here -->
+        <div class="menu-left">
+            <img src="{% static 'media\logo.png' %}" alt="Left Image">
+        </div>
+        <div class="menu-center">
+            <img src="{% static 'media\mlogo.png' %}" alt="Center Image">
+        </div>
+        <div class="menu-right">
+            <a href="/dashboard" class="rtnbtn">Return</a>
+        </div>
+    </div>
+
+    <!-- Queue Area -->
+    <div class="queue-area">
+        {% for receipt in receipts %}
+    <li>
+        <div class="queue-box">
+            <h3>Order {{ receipt.ref_num }}:</h3>
+            <pre style="overflow:visible;margin-top: 5px;">{{ receipt.items }}</pre>
+        </div>
+        <form action="{% url 'update_receipt_status' receipt.ref_num %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Done" class="done-button">
+        </form>
+    </li>
+{% endfor %}
+    <link rel="stylesheet" href="{% static 'css\queue.css' %}?version=1">
+
+</body>
+</html>

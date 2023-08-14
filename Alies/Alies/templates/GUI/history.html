@@ -1,0 +1,92 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Page</title>
+    <link rel="stylesheet" href="{% static 'css\history.css' %}">
+</head>
+<body>
+<!-- Menubar -->
+<div class="menubar">
+    <!-- Add your menu bar content here -->
+    <div class="menu-left">
+        <img src="{% static 'media\logo.png' %}" alt="Left Image">
+    </div>
+    <div class="menu-center">
+        <img src="{% static 'media\mlogo.png' %}" alt="Center Image">
+    </div>
+    <div style="display: flex; align-items: center;">
+    <div class="menu-right2">
+        <form action="{% url 'export_data' %}" method="post">
+            {% csrf_token %}
+            <input class = "export "type="submit" value="Export Data">
+        </form>
+    </div>
+    <div class="menu-right">
+        
+        <a href="/dashboard" class="rtnbtn">Return</a>
+    </div>
+</div>
+</div>
+
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <select class="transaction-tab" id="receipt-select" onchange="updateReceiptDetails()">
+                <option value="">--Please choose an option--</option>
+                {% for receipt in receipts reversed %} <!-- Add reversed keyword to loop through the receipts list in reverse order -->
+                    <option value="{{ receipt.ref_num}}">{{ receipt.date }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Order details -->
+        
+        <div class="main-content">
+            <!-- Order details will be displayed here -->
+            <!-- Display more order details here -->
+            <div id= "order-details" class="order-details">
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var orderDetails = document.getElementById("order-details");
+
+// Check if there are any items within the order details element
+
+
+
+        function updateReceiptDetails() {
+            var selectElement = document.getElementById('receipt-select');
+            var receiptId = selectElement.value;
+            if (receiptId) {
+                // Create an AJAX request
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/get-receipt-details/' + receiptId + '/');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // Parse the JSON response
+                        var receipt = JSON.parse(xhr.responseText);
+    
+                        // Update the receipt details div
+                        var receiptDetailsDiv = document.getElementById('order-details');
+                        receiptDetailsDiv.innerHTML = '<h2>Order #'+receipt.ref_num+'</h2><div><pre style="overflow:visible">' + receipt.items + '</pre></div>';
+                    }
+                };
+                xhr.send();
+            } else {
+                // Clear the receipt details div
+                var receiptDetailsDiv = document.getElementById('receipt-details');
+                receiptDetailsDiv.innerHTML = '';
+            }
+        }
+    </script>
+
+    <script src="{%static 'js/history.js'%}"></script>
+</body>
+</html>
